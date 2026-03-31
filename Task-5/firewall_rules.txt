@@ -1,0 +1,25 @@
+# Install UFW firewall utility
+sudo apt update
+sudo apt install -y ufw
+
+# Set default policies (deny incoming, allow outgoing)
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Allow SSH only from trusted source IP
+sudo ufw allow from YOUR_IP to any port 22 proto tcp
+
+# Allow HTTP traffic (port 80)
+sudo ufw allow 80/tcp
+
+# Allow application traffic on port 8000
+sudo ufw allow 8000/tcp
+
+# Enable UFW and confirm prompt
+sudo ufw enable
+
+# Check firewall status with numbered rules
+sudo ufw status numbered
+
+# Optional: view verbose status
+sudo ufw status verbose

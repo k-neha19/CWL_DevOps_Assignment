@@ -1,0 +1,36 @@
+# Create dedicated monitoring user with home directory and bash shell
+sudo useradd -m -s /bin/bash monitoruser
+
+# Set password for monitoruser
+sudo passwd monitoruser
+
+# Create monitoring directory structure
+sudo mkdir -p /opt/container-monitor/logs
+
+# Assign ownership recursively to monitoruser
+sudo chown -R monitoruser:monitoruser /opt/container-monitor
+
+# Set secure permissions:
+# 700 for base directory (owner full access only)
+sudo chmod 700 /opt/container-monitor
+
+# 700 for logs directory
+sudo chmod 700 /opt/container-monitor/logs
+
+# 600 for monitor log file (owner read/write only)
+sudo touch /opt/container-monitor/logs/monitor.log
+sudo chmod 600 /opt/container-monitor/logs/monitor.log
+
+# Verify ownership and permissions
+ls -ld /opt/container-monitor /opt/container-monitor/logs
+ls -l /opt/container-monitor/logs/monitor.log
+
+# Verify access as monitoruser (should succeed)
+sudo -u monitoruser ls -la /opt/container-monitor/logs
+
+# Verify access as another user (should fail)
+sudo -u nobody ls -la /opt/container-monitor/logs
+
+# Allow monitoruser to run Docker commands (needed for cron-based monitoring)
+# Note: this takes effect after the user logs out and back in.
+sudo usermod -aG docker monitoruser

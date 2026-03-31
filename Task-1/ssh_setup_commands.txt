@@ -1,0 +1,38 @@
+# Update package index
+sudo apt update
+
+# Install OpenSSH server
+sudo apt install -y openssh-server
+
+# Enable SSH service at boot
+sudo systemctl enable ssh
+
+# Start SSH service now
+sudo systemctl start ssh
+
+# Check SSH service status
+sudo systemctl status ssh --no-pager
+
+# On client machine: generate SSH key pair
+ssh-keygen -t ed25519 -C "devops-assignment-key"
+
+# Copy public key to server (password used only this one time)
+ssh-copy-id YOUR_USERNAME@YOUR_SERVER_IP
+
+# Verify key-based login
+ssh YOUR_USERNAME@YOUR_SERVER_IP
+
+# Backup SSH server configuration before editing
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+
+# Disable password authentication
+sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication no/' /etc/ssh/sshd_config
+
+# Ensure public key authentication is enabled
+sudo sed -i 's/^#\?PubkeyAuthentication .*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+# Reload SSH to apply configuration changes
+sudo systemctl reload ssh
+
+# Confirm effective SSH settings
+sudo sshd -T | grep -E 'passwordauthentication|pubkeyauthentication'
