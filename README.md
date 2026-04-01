@@ -70,8 +70,3 @@ Configures UFW to allow SSH from one trusted IP, allow HTTP (`80`), allow contai
 - Monitoring log updates every minute with timestamp, CPU, and memory values.
 - Non-privileged users cannot read monitoring logs.
 - UFW status reflects only expected allowed ports and source restrictions.
-
-## Notes
-
-- Replace placeholders like `YOUR_SERVER_IP`, `YOUR_USERNAME`, `YOUR_CONTAINER_NAME`, and `YOUR_IP` with actual values from your environment.
-- For assignment submission, include screenshots and a walkthrough video link in the task README files if needed.
